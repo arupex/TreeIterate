@@ -1,0 +1,30 @@
+{
+  "name": "tree-iterate",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha test",
+    "preversion": "npm test",
+    "postversion": "git push && git push --tags",
+    "start": "jsdoc2md *.js > api.md"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/arupex/TreeIterate.git"
+  },
+  "keywords": [
+    "tree",
+    "array",
+    "iterate"
+  ],
+  "author": "dirwin517",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/arupex/TreeIterate/issues"
+  },
+  "homepage": "https://github.com/arupex/TreeIterate#readme",
+  "devDependencies": {
+    "chai": "^3.5.0"
+  }
+}
