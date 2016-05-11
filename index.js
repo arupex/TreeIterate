@@ -29,6 +29,15 @@ function TreeIterator(tree, iteratorCallback){
     while(itOver.length > 0 && keepGoing) {
         var val = itOver.shift();
         if(val.child) {
+
+            //handle parent of root
+            if(!val.parent || val.parent.length === 0){
+                val.parent = val;
+            }
+            if(!val.parent.children && val.parent.child){
+                val.parent = val.parent.child;
+            }
+
             var callbackResponse = iteratorCallback(val.child, val.parent);
             //keep going if undefined
             keepGoing = (callbackResponse === undefined) || callbackResponse;
@@ -47,6 +56,7 @@ function TreeIterator(tree, iteratorCallback){
             Array.prototype.push.apply(itOver, newChildren);
         }
     }
+    return tree;
 }
 
 //Make it useable in browser as well
