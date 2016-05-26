@@ -24,6 +24,7 @@ function TreeIterator(tree, iteratorCallback){
         itOver = [ { child : { children : tree } } ];
     }
     itOver[0].parent = itOver;
+    itOver[0].parents = [];
 
     var keepGoing = true;
     while(itOver.length > 0 && keepGoing) {
@@ -38,7 +39,7 @@ function TreeIterator(tree, iteratorCallback){
                 val.parent = val.parent.child;
             }
 
-            var callbackResponse = iteratorCallback(val.child, val.parent);
+            var callbackResponse = iteratorCallback(val.child, val.parent, val.parents);
             //keep going if undefined
             keepGoing = (callbackResponse === undefined) || callbackResponse;
         }
@@ -47,9 +48,13 @@ function TreeIterator(tree, iteratorCallback){
 
             var newChildren = [];
             val.child.children.forEach(function convert(child){
+                //val.parents.push(val.parent);
+                val.parents.unshift(val.child);
+
                 newChildren.push({
                     parent : val.child,
-                    child : child
+                    child : child,
+                    parents: val.parents
                 });
             });
 
