@@ -20,6 +20,9 @@
     "globals",
     "node"
   ],
+  "main" : [
+    "index.js"
+  ],
   "ignore": [
     "**/.*",
     "node_modules",
