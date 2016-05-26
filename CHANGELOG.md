@@ -3,3 +3,5 @@
 1.0.2 - Fixed Root Parent Issue, return tree as well as in-place modification
 1.0.3 - Added 3rd parameters to callback which gives parent history
 1.0.4 - Fix Parents Parameter Bug introduced in 1.0.3, update readme and tests
+1.0.5 - Bower Release
+1.0.6 - Truely Fixing Parent issue with a better test to handle ancestory of large trees

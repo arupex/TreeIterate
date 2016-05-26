@@ -29,36 +29,37 @@ function Arupex_TreeIterator(tree, iteratorCallback){
     var keepGoing = true;
     while(itOver.length > 0 && keepGoing) {
         var val = itOver.shift();
-        if(val.child) {
+        if(val && val.child) {
 
-            //handle parent of root
-            if(!val.parent || val.parent.length === 0){
-                val.parent = val;
-            }
-            if(!val.parent.children && val.parent.child){
-                val.parent = val.parent.child;
-            }
+          //handle parent of root
+          if (!val.parent || val.parent.length === 0) {
+            val.parent = val;
+          }
+          if (!val.parent.children && val.parent.child) {
+            val.parent = val.parent.child;
+          }
 
-            var callbackResponse = iteratorCallback(val.child, val.parent, val.parents);
-            //keep going if undefined
-            keepGoing = (callbackResponse === undefined) || callbackResponse;
-        }
+          var callbackResponse = iteratorCallback(val.child, val.parent, val.parents);
+          //keep going if undefined
+          keepGoing = (callbackResponse === undefined) || callbackResponse;
 
-        val.parents.unshift(val.child);
+          var newParents = [val.child].concat(val.parents);
+          //val.parents.unshift(val.child);
 
-        if(val.child.children && keepGoing) {
+          if (val.child.children && keepGoing) {
 
             var newChildren = [];
 
-            val.child.children.forEach(function convert(child){
-                newChildren.push({
-                    parent : val.child,
-                    child : child,
-                    parents: val.parents
-                });
+            val.child.children.forEach(function convert(child) {
+              newChildren.push({
+                parent: val.child,
+                child: child,
+                parents: newParents
+              });
             });
 
             Array.prototype.push.apply(itOver, newChildren);
+          }
         }
     }
     return tree;
