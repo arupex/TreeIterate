@@ -1,7 +1,7 @@
 /**
  * Created by Joe Bartelmo on 5/26/16.
  */
-describe('Test Tree Iterate', function () {
+describe('Test Parent Trace of Tree Iterate', function () {
     var treeIterate = require('../index');
     var assert = require('chai').assert;
 

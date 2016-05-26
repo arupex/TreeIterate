@@ -44,13 +44,13 @@ function TreeIterator(tree, iteratorCallback){
             keepGoing = (callbackResponse === undefined) || callbackResponse;
         }
 
+        val.parents.unshift(val.child);
+
         if(val.child.children && keepGoing) {
 
             var newChildren = [];
-            val.child.children.forEach(function convert(child){
-                //val.parents.push(val.parent);
-                val.parents.unshift(val.child);
 
+            val.child.children.forEach(function convert(child){
                 newChildren.push({
                     parent : val.child,
                     child : child,

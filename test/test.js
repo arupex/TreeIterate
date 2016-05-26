@@ -37,19 +37,28 @@ describe('Test Tree Iterate', function(){
 
     it('test full iteration', function(){
         var str = [];
-        treeIterate(tree, function(node, parent){
-            str.push(node.name + ', ' + parent.name);
+
+
+        treeIterate(tree, function(node, parent, parents){
+
+          parentNames = [];
+
+            parents.forEach(function(anscestor){
+              parentNames.push(anscestor.name);
+            });
+            str.push('Current Node : ' + node.name + ', Current Parent : ' + parent.name + ', Parents: [ ' + (parentNames) + ' ]');
+
         });
 
         assert.deepEqual(str, [
-            'undefined, undefined',//this is a bug
-            'parent, undefined',
-            'child1, parent',
-            'child2, parent',
-            'child1Deep1, child1',
-            'child1Deep2, child1',
-            'child2Deep1, child2',
-            'child2Deep2, child2'
+          'Current Node : undefined, Current Parent : undefined, Parents: [  ]',
+          'Current Node : parent, Current Parent : undefined, Parents: [  ]',
+          'Current Node : child1, Current Parent : parent, Parents: [ parent, ]',
+          'Current Node : child2, Current Parent : parent, Parents: [ child1,parent, ]',
+          'Current Node : child1Deep1, Current Parent : child1, Parents: [ child2,child1,parent, ]',
+          'Current Node : child1Deep2, Current Parent : child1, Parents: [ child1Deep1,child2,child1,parent, ]',
+          'Current Node : child2Deep1, Current Parent : child2, Parents: [ child1Deep2,child1Deep1,child2,child1,parent, ]',
+          'Current Node : child2Deep2, Current Parent : child2, Parents: [ child2Deep1,child1Deep2,child1Deep1,child2,child1,parent, ]'
         ]);
 
     });
