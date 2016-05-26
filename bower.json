@@ -1,0 +1,30 @@
+{
+  "name": "tree-iterate",
+  "description": "iterate a array tree",
+  "main": "index.js",
+  "version" : "1.0.0",
+  "authors": [
+    "dirwin517"
+  ],
+  "license": "UNLICENSED",
+  "keywords": [
+    "iterate",
+    "array",
+    "tree",
+    "parent",
+    "ancestors"
+  ],
+  "homepage": "https://github.com/arupex/TreeIterate",
+  "moduleType": [
+    "es6",
+    "globals",
+    "node"
+  ],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

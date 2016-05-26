@@ -11,7 +11,7 @@
  * @constructor
  *
  */
-function TreeIterator(tree, iteratorCallback){
+function Arupex_TreeIterator(tree, iteratorCallback){
     var itOver = [];
     if(!tree){
         return;
@@ -66,5 +66,5 @@ function TreeIterator(tree, iteratorCallback){
 
 //Make it useable in browser as well
 if(typeof module !== 'undefined'){
-    module.exports = TreeIterator;
+    module.exports = Arupex_TreeIterator;
 }
