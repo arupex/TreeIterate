@@ -92,7 +92,7 @@ describe('Test Performance', function(){
   //total [557/558]: 1ms  per Item : 0.0017953321364452424ms
   //total [283/284]: 1ms  per Item : 0.0035335689045936395ms
   it('large tree speed', function() {
-    this.timeout(36460);
+    this.timeout(50000);
 
     for(var size = 20; size > 0; --size) {
       var result = testSize(size, generateTree);
@@ -116,7 +116,7 @@ describe('Test Performance', function(){
   //total [1735/1736]: 1ms  per Item : 0.0005763688760806917ms
   //total [1157/1158]: 1ms  per Item : 0.000864304235090752ms
   it('large tree speed', function() {
-    this.timeout(36460);
+    this.timeout(50000);
 
     for(var size = 100000; size > 2; size = Math.ceil(size/1.5)) {
       var result = testSize(size, itGenerateTree);
