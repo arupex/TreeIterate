@@ -9,3 +9,4 @@ NPM Releases
 *1.0.5 - Bower Release
 *1.0.6 - Truely Fixing Parent issue with a better test to handle ancestory of large trees
 1.0.7 - Release Updates to NPM with Readme updates and Performance Tests
+1.0.8 - Travis-CI readme / badges
