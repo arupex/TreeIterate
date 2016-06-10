@@ -1,5 +1,9 @@
 # tree-iterate
 
+[![npm version](https://badge.fury.io/js/tree-iterate.svg)](https://badge.fury.io/js/tree-iterate) [![dependencies](https://david-dm.org/arupex/TreeIterate.svg)](http://github.com/arupex/TreeIterate) ![Build Status](https://api.travis-ci.org/arupex/cucumber-report-store.svg?branch=master) <a href='https://pledgie.com/campaigns/31873'><img alt='Pledge To Arupex!' src='https://pledgie.com/campaigns/31873.png?skin_name=chrome' border='0' ></a>
+
+
+Install
 
     npm install tree-iterate --save
     
