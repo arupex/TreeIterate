@@ -11,22 +11,38 @@
  * @constructor
  *
  */
-function Arupex_TreeIterator(tree, iteratorCallback){
-    var itOver = [];
-    if(!tree){
-        return;
+function Arupex_TreeIterator(tree, options, iteratorCallback){
+  if(!tree){
+    return;
+  }
+
+    //keeping backward compatability
+    if(arguments.length === 2 || typeof options === 'function'){
+      iteratorCallback = options;
+      options = {};
     }
 
-    if (typeof tree === 'object' && !tree.forEach) {
-        itOver = [ { child : { children : [tree] } } ];
+  function cleanupData() {
+    var itOver = [];
+    if (typeof tree === 'object' && !Array.isArray(tree)) {
+      itOver =[{child: { __root : true, children: [tree]}}];
     }
     else {
-        itOver = [ { child : { children : tree } } ];
+      itOver = [{child: { __root : true, children: tree}}];
     }
     itOver[0].parent = itOver;
-    itOver[0].parents = [];
+    if (!options.ignoreParents) {
+      itOver[0].parents = [];
+    }
+    if (!options.ignoreParentalsArray) {
+      itOver[0].parentalIndex = [];
+    }
+    return itOver;
+  }
 
-    var keepGoing = true;
+  var itOver = cleanupData();
+
+  var keepGoing = true;
     while(itOver.length > 0 && keepGoing) {
         var val = itOver.shift();
         if(val && val.child) {
@@ -39,24 +55,45 @@ function Arupex_TreeIterator(tree, iteratorCallback){
             val.parent = val.parent.child;
           }
 
-          var callbackResponse = iteratorCallback(val.child, val.parent, val.parents);
+          var parentIsRoot = (val.parent && val.parent.__root);
+          var parentShown = (parentIsRoot ? {} : val.parent);
+          var parentsShown = (parentIsRoot ? [] : val.parents);
+
+          var callbackResponse = options.objectCallback?iteratorCallback(val):iteratorCallback(val.child, parentShown, parentsShown, val.parentalIndex);
           //keep going if undefined
           keepGoing = (callbackResponse === undefined) || callbackResponse;
 
-          var newParents = [val.child].concat(val.parents);
-          //val.parents.unshift(val.child);
+          var newParents;
+
+          if(!options.ignoreParents){
+            newParents = [val.child].concat(val.parents);
+          }
 
           if (val.child.children && keepGoing) {
 
             var newChildren = [];
 
-            val.child.children.forEach(function convert(child) {
+            var childIndex = 0;
+
+            function convert(child) {
+
+              var parentalIndex;
+              if(!options.ignoreParentalsArray){
+                parentalIndex = [childIndex];
+                Array.prototype.push.apply(parentalIndex, val.parentalIndex);
+              }
+
               newChildren.push({
                 parent: val.child,
                 child: child,
-                parents: newParents
+                parents: newParents,
+                parentalIndex : parentalIndex
               });
-            });
+
+              ++childIndex;
+            }
+
+            val.child.children.forEach(convert);
 
             Array.prototype.push.apply(itOver, newChildren);
           }

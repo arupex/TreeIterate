@@ -42,8 +42,15 @@ Install
                     ]
                 }];
 
+    //all options are optional
+    var options = {
+        objectCallback : boolean //params object instead of 3 params
+        ignoreParentalsArray : boolean
+        ignoreParents : boolean
+    };
 
-    treeIterator(tree, function forEachCallback(node, parent, parents){
+
+    treeIterator(tree, options, function forEachCallback(node, parent, parents, parentIndices){
         parentNames = [];
         parents.forEach(function(anscestor){
             parentNames.push(anscestor.name);

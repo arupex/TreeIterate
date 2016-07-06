@@ -65,7 +65,10 @@ describe('Test Performance', function(){
 
     var start = new Date().getTime();
     var numberOfIterations = 0;
-    treeIterate(tree.tree, function (node) {
+    treeIterate(tree.tree, {
+      ignoreParents : true,
+      //ignoreParentalArray : true
+    }, function (node) {
       ++numberOfIterations;
     });
     var end = new Date().getTime();
@@ -94,7 +97,7 @@ describe('Test Performance', function(){
   it('large tree speed', function() {
     this.timeout(50000);
 
-    for(var size = 20; size > 0; --size) {
+    for(var size = 20/2; size > 0; --size) {
       var result = testSize(size, generateTree);
       console.log('\ttotal [' + result.totalNodes + '/' + result.numberOfIteration + ']: ' + result.diff + 'ms', ' per Item : ' + result.perNode + 'ms');
     }
@@ -118,7 +121,7 @@ describe('Test Performance', function(){
   it('large tree speed', function() {
     this.timeout(50000);
 
-    for(var size = 100000; size > 2; size = Math.ceil(size/1.5)) {
+    for(var size = 100000/2; size > 2; size = Math.ceil(size/1.5)) {
       var result = testSize(size, itGenerateTree);
       console.log('\ttotal [' + result.totalNodes + '/' + result.numberOfIteration + ']: ' + result.diff + 'ms', ' per Item : ' + result.perNode + 'ms');
     }

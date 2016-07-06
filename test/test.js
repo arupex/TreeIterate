@@ -39,7 +39,14 @@ describe('Test Tree Iterate', function(){
         var str = [];
 
 
-        treeIterate(tree, function(node, parent, parents){
+        treeIterate(tree, {
+          //objectCallback : true
+        }, function(node, parent, parents, parentIndex){
+
+          //console.log('node', node);
+          //console.log('parent', parent);
+          //console.log('parents', parents);
+          //console.log('parentIndex', parentIndex);
 
           parentNames = [];
 

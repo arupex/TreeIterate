@@ -10,3 +10,5 @@ NPM Releases
 *1.0.6 - Truely Fixing Parent issue with a better test to handle ancestory of large trees
 1.0.7 - Release Updates to NPM with Readme updates and Performance Tests
 1.0.8 - Travis-CI readme / badges
+1.0.9 - A bit of an overhall enabling some configurability, and allowing for even better performance
+1.0.10 - Fixing root parents

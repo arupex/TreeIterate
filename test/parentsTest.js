@@ -33,7 +33,8 @@ describe('Test Parent Trace of Tree Iterate', function () {
 
     it('test get all parents', function () {
         var str = [];
-        treeIterate(tree, function test(node, parent, parents) {
+        treeIterate(tree, function test(node, parent, parents, parrentArrayIndex) {
+
             if (node.depth === 5) {
                 parents.forEach(function grabDepth(nodeParent) {
                     str.push(nodeParent.depth);
