@@ -18,86 +18,69 @@ function Arupex_TreeIterator(tree, options, iteratorCallback){
         return;
     }
 
+    var itOver = [{child: { __root : true, children: tree}}];
+
+    if (!Array.isArray(tree)) {
+        itOver =[{child: { __root : true, children: [tree]}}];
+    }
+
+    itOver[0].parent = itOver;
+
+    if (!itOver[0].parent || itOver[0].parent.length === 0) {
+        itOver[0].parent = itOver[0];
+    }
+    if (!itOver[0].parent.children && itOver[0].parent.child) {
+        itOver[0].parent = itOver[0].parent.child;
+    }
+
     //keeping backward compatability
     if(arguments.length === 2 || typeof options === 'function'){
         iteratorCallback = options;
         options = {};
     }
 
-    function cleanupData() {
-        var itOver = [];
-        if (typeof tree === 'object' && !Array.isArray(tree)) {
-            itOver =[{child: { __root : true, children: [tree]}}];
-        }
-        else {
-            itOver = [{child: { __root : true, children: tree}}];
-        }
-        itOver[0].parent = itOver;
-        if (!options.ignoreParents) {
-            itOver[0].parents = [];
-        }
-        if (!options.ignoreParentalsArray) {
-            itOver[0].parentalIndex = [];
-        }
-        return itOver;
+    if (!options.ignoreParents) {
+        itOver[0].parents = [];
+    }
+    if (!options.ignoreParentalsArray) {
+        itOver[0].parentalIndex = [];
     }
 
-    var itOver = cleanupData();
+    var parentIsRoot;
+    var val;
 
-    var keepGoing = true;
-    while(itOver.length > 0 && keepGoing) {
-        var val = itOver.shift();
-        if(val && val.child) {
+    while((val = itOver.shift())) {
 
-            //handle parent of root
-            if (!val.parent || val.parent.length === 0) {
-                val.parent = val;
-            }
-            if (!val.parent.children && val.parent.child) {
-                val.parent = val.parent.child;
-            }
+        if(val.child) {
 
-            var parentIsRoot = (val.parent && val.parent.__root);
-            var parentShown = (parentIsRoot ? {} : val.parent);
-            var parentsShown = (parentIsRoot ? [] : val.parents);
+            parentIsRoot = (val.parent && val.parent.__root);
 
-            var callbackResponse = options.objectCallback?iteratorCallback(val):iteratorCallback(val.child, parentShown, parentsShown, val.parentalIndex);
+            var callbackResponse = options.objectCallback?iteratorCallback(val):iteratorCallback(val.child, (parentIsRoot ? {} : val.parent), (parentIsRoot ? [] : val.parents), val.parentalIndex);
             //keep going if undefined
-            keepGoing = (callbackResponse === undefined) || callbackResponse;
-
-            var newParents;
-
-            if(!options.ignoreParents){
-                newParents = [val.child].concat(val.parents);
+            if(!callbackResponse && (callbackResponse !== undefined)){
+                return tree;
             }
 
-            if (val.child.children && keepGoing) {
+            if (val.child.children) {
 
-                var newChildren = [];
+                var parentalIndex;
+                for(var zi = 0; zi < val.child.children.length; ++zi){
 
-                var childIndex = 0;
-
-                function convert(child) {
-
-                    var parentalIndex;
                     if(!options.ignoreParentalsArray){
-                        parentalIndex = [childIndex];
-                        Array.prototype.push.apply(parentalIndex, val.parentalIndex);
+                        parentalIndex = [zi];
+
+                        for(var z = 0; z < val.parentalIndex.length; ++z){
+                            parentalIndex.push(val.parentalIndex[z]);
+                        }
                     }
 
-                    newChildren.push({
+                    itOver.push({
                         parent: val.child,
-                        child: child,
-                        parents: newParents,
+                        child: val.child.children[zi],
+                        parents: !options.ignoreParents?[val.child].concat(val.parents):undefined,
                         parentalIndex : parentalIndex
                     });
-
-                    ++childIndex;
                 }
-
-                val.child.children.forEach(convert);
-
-                Array.prototype.push.apply(itOver, newChildren);
             }
         }
     }

@@ -12,3 +12,10 @@ NPM Releases
 1.0.8 - Travis-CI readme / badges
 1.0.9 - A bit of an overhall enabling some configurability, and allowing for even better performance
 1.0.10 - Fixing root parents
+
+1.1.0 - No Breaking Changes Intended ( however some may occur )
+    Cleanup conditions
+    changed Array.push.apply to loop (large arrays fails)
+    cleanup unnecessary tmp variables
+    use traditional for() loop instead of forEach (performance)
+    Performance Improvements all around! in most cases 50% (giant trees *0.5 million elements or greater* are slower, but safer with new code)
