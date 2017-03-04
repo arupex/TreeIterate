@@ -19,3 +19,5 @@ NPM Releases
     cleanup unnecessary tmp variables
     use traditional for() loop instead of forEach (performance)
     Performance Improvements all around! in most cases 50% (giant trees *0.5 million elements or greater* are slower, but safer with new code)
+    
+1.1.1 - Added lifetime download counter to readme
